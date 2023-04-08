@@ -6,11 +6,23 @@ import {
 } from 'react-router-dom';
 
 import Home from 'pages/Home';
+import LoginPage from 'pages/Login';
+import SignUpPage from 'pages/SignUp';
 
-const router = createBrowserRouter(createRoutesFromElements(<Route path="/" element={<Home />} />));
+import AuthenticatedRoute from 'components/AuthenticatedRoute';
+
+const routes = createRoutesFromElements(
+  <>
+    <Route path="/" element={<AuthenticatedRoute />}>
+      <Route index element={<Home />} />
+    </Route>
+    <Route path="/signin" element={<LoginPage />} />
+    <Route path="/signup" element={<SignUpPage />} />
+  </>,
+);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={createBrowserRouter(routes)} />;
 };
 
 export default App;
