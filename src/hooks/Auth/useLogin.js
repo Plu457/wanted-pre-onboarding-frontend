@@ -13,7 +13,7 @@ const useLogin = () => {
         name: Constants.AuthTokenName,
         value: res.access_token,
       });
-      navigate('/');
+      navigate('/todo');
     },
   });
 
