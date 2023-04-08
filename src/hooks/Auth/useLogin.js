@@ -14,6 +14,7 @@ const useLogin = () => {
         value: res.access_token,
       });
       navigate('/todo');
+      window.location.reload();
     },
   });
 
