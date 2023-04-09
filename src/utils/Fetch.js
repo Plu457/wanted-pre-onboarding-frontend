@@ -1,12 +1,14 @@
 import { Constants } from 'commons';
 import Storage from './Storage';
 
-const accessToken = Storage.getAuthToken({ name: Constants.AuthTokenName });
+const getHeaders = () => {
+  const accessToken = Storage.getAuthToken({ name: Constants.AuthTokenName });
 
-const getHeaders = () => ({
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${accessToken || null}`,
-});
+  return {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${accessToken || null}`,
+  };
+};
 
 const getTodos = url =>
   fetch(`${Constants.BaseUrl}${url}`, {
