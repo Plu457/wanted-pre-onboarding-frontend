@@ -11,7 +11,7 @@ const useMutation = (fetchAPI, { onSuccess, onError }) => {
         setIsLoading(true);
 
         const response = await fetchAPI(requestData);
-        if (response.status >= 200 && response.status < 300) {
+        if (response.status === 201 || response.status === 204) {
           if (onSuccess) onSuccess(requestData);
           return;
         }
