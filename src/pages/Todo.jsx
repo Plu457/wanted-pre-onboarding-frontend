@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import useCreateTodo from 'hooks/Todos/useCreateTodo';
 import useDeleteTodo from 'hooks/Todos/useDeleteTodo';
 import useGetTodos from 'hooks/Todos/useGetTodos';
+import useUpdateTodo from 'hooks/Todos/useUpdateTodo';
 
 import TodoView from 'views/TodoView';
 
@@ -12,6 +13,7 @@ const Todo = () => {
   const { data: getTodos } = useGetTodos();
   const { createTodo } = useCreateTodo(setTodos);
   const { deleteTodo } = useDeleteTodo(setTodos);
+  const { updateTodo } = useUpdateTodo(setTodos);
 
   useEffect(() => {
     setTodos(getTodos);
@@ -31,7 +33,18 @@ const Todo = () => {
     }
   };
 
-  return <TodoView todoList={todos} onSubmitTodo={onSubmitTodo} onDeleteTodo={onDeleteTodo} />;
+  const onUpdateTodo = ({ id, todo, isCompleted }) => {
+    updateTodo({ id, todo, isCompleted });
+  };
+
+  return (
+    <TodoView
+      todoList={todos}
+      onSubmitTodo={onSubmitTodo}
+      onDeleteTodo={onDeleteTodo}
+      onUpdateTodo={onUpdateTodo}
+    />
+  );
 };
 
 export default Todo;
