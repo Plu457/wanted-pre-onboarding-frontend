@@ -1,35 +1,17 @@
-import { useReducer, useCallback } from 'react';
-
-const initialState = {
-  data: undefined,
-  isLoading: false,
-  error: undefined,
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'LOADING_START':
-      return { ...state, isLoading: true };
-    case 'LOADING_SUCCESS':
-      return { ...state, data: action.payload, isLoading: false };
-    case 'LOADING_ERROR':
-      return { ...state, error: action.payload, isLoading: false };
-    default:
-      return state;
-  }
-};
+import { useCallback, useState } from 'react';
 
 const useMutation = (fetchAPI, { onSuccess, onError }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { data, isLoading, error } = state;
+  const [data, setData] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(undefined);
 
   const mutation = useCallback(
     async requestData => {
       try {
-        dispatch({ type: 'LOADING_START' });
+        setIsLoading(true);
 
         const response = await fetchAPI(requestData);
-        if (response.status === 201) {
+        if (response.status >= 200 && response.status < 300) {
           if (onSuccess) onSuccess(requestData);
           return;
         }
@@ -40,13 +22,13 @@ const useMutation = (fetchAPI, { onSuccess, onError }) => {
         }
 
         const responseData = await response.json();
-
-        dispatch({ type: 'LOADING_SUCCESS', payload: responseData });
-
+        setData(responseData);
         if (onSuccess) onSuccess(responseData);
       } catch (error) {
-        dispatch({ type: 'LOADING_ERROR', payload: error });
+        setError(error);
         if (onError) onError(error);
+      } finally {
+        setIsLoading(false);
       }
     },
     [fetchAPI, onSuccess, onError],
