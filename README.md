@@ -1,3 +1,10 @@
+## 실행 방법
+
+```bash
+git clone https://github.com/Plu457/wanted-pre-onboarding-frontend
+npm i & npm start
+```
+
 ## 1. 로그인 / 회원가입
 
 ---

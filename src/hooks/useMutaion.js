@@ -5,25 +5,33 @@ const useMutation = (fetchAPI, { onSuccess, onError }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(undefined);
 
+  const handleResponse = async response => {
+    if (!response.ok) {
+      const { error, message, statusCode } = await response.json();
+      throw new Error(`statusCode: ${statusCode}, message: ${message}, error: ${error}`);
+    }
+
+    const contentType = response.headers.get('Content-Type') || '';
+    if (
+      (response.status === 200 || response.status === 201) &&
+      contentType.includes('application/json')
+    ) {
+      return await response.json();
+    }
+
+    return null;
+  };
+
   const mutation = useCallback(
     async requestData => {
+      setIsLoading(true);
+
       try {
-        setIsLoading(true);
-
         const response = await fetchAPI(requestData);
-        if (response.status === 204) {
-          if (onSuccess) onSuccess(requestData);
-          return;
-        }
+        const responseData = await handleResponse(response);
 
-        if (!response.ok) {
-          const { error, message, statusCode } = await response.json();
-          throw new Error(`statusCode: ${statusCode}, message: ${message}, error: ${error}`);
-        }
-
-        const responseData = await response.json();
         setData(responseData);
-        if (onSuccess) onSuccess(responseData);
+        if (onSuccess) onSuccess(responseData || requestData);
       } catch (error) {
         setError(error);
         if (onError) onError(error);
