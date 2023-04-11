@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState, useCallback } from 'react';
 
 const useMutation = (fetchAPI, { onSuccess, onError }) => {
   const [data, setData] = useState(undefined);
@@ -11,7 +11,7 @@ const useMutation = (fetchAPI, { onSuccess, onError }) => {
         setIsLoading(true);
 
         const response = await fetchAPI(requestData);
-        if (response.status === 201 || response.status === 204) {
+        if (response.status === 204) {
           if (onSuccess) onSuccess(requestData);
           return;
         }

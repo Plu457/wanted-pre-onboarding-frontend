@@ -1,7 +1,7 @@
 import Input from 'components/Input';
 import { useState } from 'react';
 
-const TodoItem = ({ onDeleteTodo, onUpdateTodo, onCompleted, id, todo, isCompleted }) => {
+const TodoItem = ({ onDeleteTodo, onUpdateTodo, id, todo, isCompleted }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(todo);
 
@@ -32,9 +32,9 @@ const TodoItem = ({ onDeleteTodo, onUpdateTodo, onCompleted, id, todo, isComplet
         <DefaultView
           todo={todo}
           isCompleted={isCompleted}
-          onCompleted={onCompleted}
           setIsEditing={setIsEditing}
           onDeleteTodo={onDeleteTodo}
+          onUpdateTodo={onUpdateTodo}
           id={id}
         />
       )}
@@ -42,13 +42,13 @@ const TodoItem = ({ onDeleteTodo, onUpdateTodo, onCompleted, id, todo, isComplet
   );
 };
 
-const DefaultView = ({ todo, isCompleted, onCompleted, setIsEditing, onDeleteTodo, id }) => (
+const DefaultView = ({ todo, isCompleted, onUpdateTodo, setIsEditing, onDeleteTodo, id }) => (
   <>
     <label>
       <input
         type="checkbox"
         checked={isCompleted}
-        onChange={() => onCompleted({ id, todo, isCompleted: !isCompleted })}
+        onChange={() => onUpdateTodo({ id, todo, isCompleted: !isCompleted })}
       />
       <span className={`w-full pl-2 ${isCompleted ? 'line-through text-gray-400' : ''}`}>
         {todo}
