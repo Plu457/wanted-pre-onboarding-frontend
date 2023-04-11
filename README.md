@@ -1,9 +1,20 @@
 ## 실행 방법
 
+---
+
+<br />
+
 ```bash
 git clone https://github.com/Plu457/wanted-pre-onboarding-frontend
-npm i & npm start
+npm install
+npm start
 ```
+
+<br />
+
+## [배포 링크](https://wanted-pre-onboarding-frontend-navy.vercel.app/)
+
+<br />
 
 ## 1. 로그인 / 회원가입
 
