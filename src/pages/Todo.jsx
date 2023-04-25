@@ -22,9 +22,9 @@ const Todo = () => {
 
   const onSubmitTodo = todo => e => {
     e.preventDefault();
-    if (!todo) return;
-
-    createTodo({ todo });
+    if (todo.trim() !== '') {
+      createTodo({ todo });
+    }
   };
 
   const onDeleteTodo = id => {
